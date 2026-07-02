@@ -2,8 +2,19 @@
 
 This plugin allows you to syncronize your colorscheme with your terminal emulator.
 
-Installation
-- add the package to your package manager
+# Installation
+- add the package to your package manager (e.g. [like this](https://github.com/timonviola/config/commit/0afdce48222cf7fdc6c623486a8cde74d030c3ca#diff-9a770dc5857fcb7de97fca512935d9202e1d76cf09ffc1cbf13c2cf803f921a0R212-R217))
+
+```diff
++    {
++        "timonviola/wezterm-colorsync.nvim",
++        config = function()
++            require("colorsync").setup()
++        end
++    },
+```
+
+  
 - update your wezterm config, so wezterm reads the colorscheme from a file:
 
 ```lua
