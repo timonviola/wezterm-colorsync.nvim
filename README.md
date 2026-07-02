@@ -5,7 +5,8 @@ This plugin allows you to syncronize your colorscheme with your terminal emulato
 Installation
 - add the package to your package manager
 - update your wezterm config, so wezterm reads the colorscheme from a file:
-  ```lua
+
+```lua
 local file = io.open(wezterm.config_dir .. "/colorscheme", "r")
 
 if file then
@@ -19,6 +20,7 @@ end
 # Configuration
 
 you can provide how you want to map your colorschemes as a lua table:
+
 ```lua
 config = function()
   require("colorsync").setup(
