@@ -57,7 +57,7 @@ local function notification_provider(opts)
     local ok, notify = pcall(require, "notify")
     -- use vimlog, no notify dependency
     if not ok then
-        error("Not implemented", 2)
+        error("Not implemented. Use notify.nvim as a dependency.", 2)
     end
     -- plugin default provided opts
     if opts == nil then
