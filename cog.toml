@@ -5,10 +5,7 @@ disable_bump_commit = false
 generate_mono_repository_global_tag = false
 branch_whitelist = ["trunk", "release/**"]
 pre_bump_hooks = []
-post_bump_hooks = [
-  "git push origin {{version}}",
-  "git push",
-]
+post_bump_hooks = []
 
 [git_hooks]
 
