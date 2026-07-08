@@ -61,10 +61,10 @@ local check_setup = function()
   local file_can_be_read = file_handle ~= nil
   if not file_can_be_read then
     -- log.error("IOError: Could not open file for reading" .. nvim_filename)
+    M.notify("Error: Could not open file for reading" .. nvim_filename, vim.log.levels.ERROR)
     return State.INIT_FILE_DOES_NOT_EXIST
   end
   file_handle.close()
-  M.notify("Init file exists. All goode", vim.log.levels.INFO)
   return State.OK
 end
 
