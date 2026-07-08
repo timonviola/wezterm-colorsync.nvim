@@ -1,0 +1,41 @@
+name: Release
+on:
+  push:
+    branches: [trunk]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Semver release
+    runs-on: ubuntu-latest
+    if: "!startsWith(github.event.head_commit.message, 'chore(version):')"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set git identity
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Semver release
+        id: release
+        uses: cocogitto/cocogitto-action@v3
+        with:
+          release: true
+          git-user: "github-actions[bot]"
+          git-user-email: "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Generate changelog for release
+        run: cog changelog --at ${{ steps.release.outputs.version }} -t full_hash > GITHUB_CHANGELOG.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.release.outputs.version }}
+          body_path: GITHUB_CHANGELOG.md
+          token: ${{ secrets.GITHUB_TOKEN }}

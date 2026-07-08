@@ -1,0 +1,19 @@
+name: Conventional commits check
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  cog_check:
+    name: Check conventional commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Conventional commits check
+        uses: cocogitto/cocogitto-action@v3
+        with:
+          check-latest-tag-only: false
