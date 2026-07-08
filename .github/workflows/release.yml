@@ -12,10 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     if: "!startsWith(github.event.head_commit.message, 'chore(version):')"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
 
       - name: Set git identity
         run: |
@@ -24,17 +25,19 @@ jobs:
 
       - name: Semver release
         id: release
-        uses: cocogitto/cocogitto-action@v3
+        uses: cocogitto/cocogitto-action@c7a74f5406bab86da17da0f0e460a69f8219a68c # v3.11.0
         with:
           release: true
           git-user: "github-actions[bot]"
           git-user-email: "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Generate changelog for release
-        run: cog changelog --at ${{ steps.release.outputs.version }} -t full_hash > GITHUB_CHANGELOG.md
+        run: cog changelog --at ${STEPS_RELEASE_OUTPUTS_VERSION} -t full_hash > GITHUB_CHANGELOG.md
+        env:
+          STEPS_RELEASE_OUTPUTS_VERSION: ${{ steps.release.outputs.version }}
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
         with:
           tag_name: ${{ steps.release.outputs.version }}
           body_path: GITHUB_CHANGELOG.md
