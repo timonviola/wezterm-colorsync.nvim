@@ -1,18 +1,25 @@
+-- Synchronise wezterm's theme and NVIM's colorscheme with the `:colorschme`
+-- cmd.
+-- Wezterm's config file needs modification, this plugin relies on state files
+-- on your local filesystem.
+--
+-- Wezterm's colorscheme is stored next to `$WEZTERM_CONFIG_FILE` as `colorscheme`.
+-- NVIM's colorscheme is stored under `stdpath("state")/colorscheme`
+--
+-- The theme mapping is not-complete and manually maintained for now.
+--
+-- BUG: the `bg` light/dark value is not properly update on NVIM side after
+-- switching from a light theme. This might be due to some colorscheme
+-- shenanigans.
+--
 -- Disclaimer: Thanks for all the various blog posts, comments that inspired this
 local M = {}
 
 local UI = require("colorsync.ui")
 local CMD = require("colorsync.command")
 
-local function dirname(path)
-  -- remove trailing slashes (except if it's just "/")
-  if #path > 1 then path = path:gsub("/+$", "") end
-  local i = path:match(".*()/[^/]*$") -- position of last /
-  return path:sub(1, i - 1)
-end
-
 -- colorscheme file used by wezterm
-M.WEZTERM_CONFIG_DIR = dirname(vim.fn.expand("$WEZTERM_CONFIG_FILE")) .. "/colorscheme"
+M.WEZTERM_CONFIG_DIR = vim.fn.expand("$WEZTERM_CONFIG_DIR") .. "/colorscheme"
 M.AU_GROUP_NAME = "wezterm_colorscheme"
 
 DEFAULT_MAP_COLORSCHEMES_NVIM_TO_WEZTERM = {
@@ -84,20 +91,6 @@ local function notification_provider(opts)
   M.notify = notify
 end
 
--- Synchronise wezterm's theme and NVIM's colorscheme with the `:colorschme`
--- cmd.
--- Wezterm's config file needs modification, this plugin relies on state files
--- on your local filesystem.
---
--- Wezterm's colorscheme is stored next to `$WEZTERM_CONFIG_FILE` as `colorscheme`.
--- NVIM's colorscheme is stored under `stdpath("state")/colorscheme`
---
--- The theme mapping is not-complete and manually maintained for now.
---
--- BUG: the `bg` light/dark value is not properly update on NVIM side after
--- switching from a light theme. This might be due to some colorscheme
--- shenanigans.
---
 -- @param opts table | nil
 -- Options
 --   opts.notify: (table|false|nil)

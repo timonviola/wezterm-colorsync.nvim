@@ -1,6 +1,5 @@
 --- Ref: https://neo.vimhelp.org/health.txt.html#health-dev
 local M = {}
-local AU_GROUP_NAME = "wezterm_colorscheme"
 
 --- utilities
 
